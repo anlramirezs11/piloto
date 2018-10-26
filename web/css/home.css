@@ -6,7 +6,7 @@
 html, body{
     height: 100%;
     margin: 0;
-    background: #B9F291;
+    background: #ffffff;
     font-family: 'Montserrat', sans-serif;
 }
 body .map{
@@ -70,11 +70,62 @@ body .map #map{
     width: 90%;
     height: 80px;
     margin: 20px auto;
-    box-shadow: 10px 10px 3px -5px rgba(214,214,214,1);
+    box-shadow: 5px 5px 3px -5px rgba(214,214,214,1);
     padding: 0px 10px;
 }
 
 .container{
      display: flex;
-     margin: 0px 50px;
+     width: 1300px;
+     
+     margin: 0px auto;
 }
+.container div img{
+    width: 250px;
+}
+.container div img:hover{
+    cursor:pointer; cursor: hand;	
+}
+.informacion{
+    width: 1300px;
+    margin: 0px auto 20px auto;
+}
+
+.data{
+        width: 600px;
+        padding: 20px;
+        margin: 0;
+        box-shadow: 5px 5px 3px -5px rgba(214,214,214,1);
+}
+.FoundData, .Irregular{
+    margin-top: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    float:next;    
+    width: 1200px !important;
+    max-height: 500px;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+table .tableRecords, table .tableRecords1{
+    border-collapse: collapse !important;
+}
+table .tableRecords td, table .tableRecords th, table .tableRecords1 td, table .tableRecords1 th{
+    border: black 2px solid;
+    padding: 0px 2px;
+    min-width: 100px;
+}
+table .tableRecords th, table .tableRecords1 th{
+    padding: 5px 2px;
+    font-weight:800;
+}
+table .tableRecords #fixedRow, table .tableRecords1 #fixedRow{
+   position: sticky;
+   top: 0;
+   border: black 2px solid;   
+   font-weight: 700;
+   color: #ffffff;
+   background-color: #FF7676;
+}
+
+
