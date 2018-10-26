@@ -1,16 +1,13 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
 /* 
     Created on : 24/10/2018, 12:29:07 PM
     Author     : andrea.ramirez
 */
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600,700');
 html, body{
     height: 100%;
     margin: 0;
     background: #B9F291;
+    font-family: 'Montserrat', sans-serif;
 }
 body .map{
     height: 100%;
@@ -25,8 +22,9 @@ body .map #map{
 }
 .info { 
     padding: 6px 8px; 
-    font: 14px/16px Arial, Helvetica, sans-serif; 
-    background: white; background: rgba(255,255,255,0.8); 
+    font: 14px/16px 'Montserrat', sans-serif; 
+    background: white; 
+    background: rgba(255,255,255,0.8); 
     box-shadow: 0 0 15px rgba(0,0,0,0.2); 
     border-radius: 5px; 
 } 
@@ -45,4 +43,38 @@ body .map #map{
     float: left; 
     margin-right: 8px; 
     opacity: 0.7; 
+}
+.logo{
+    width: 250px;
+    height: auto;
+    margin: 20px auto;
+}
+.infoLocal{
+    margin: 20px;
+}
+.titulo{
+    font-size: 34px;
+}
+.desc{
+    font-size: 15x;
+    margin-top: 20px;
+    width: 250px;
+
+}
+.subtitulo{
+    font-size: 20px;
+     letter-spacing: 100;
+}
+.indicadores{
+    background: #F2F2F2;
+    width: 90%;
+    height: 80px;
+    margin: 20px auto;
+    box-shadow: 10px 10px 3px -5px rgba(214,214,214,1);
+    padding: 0px 10px;
+}
+
+.container{
+     display: flex;
+     margin: 0px 50px;
 }

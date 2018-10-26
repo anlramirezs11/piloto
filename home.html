@@ -16,6 +16,221 @@
     <link href="css/home.css" rel="stylesheet" type="text/css"/> 
 </head>
 <body>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alerta la Obra</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600" rel="stylesheet"> 
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
+    <script type="text/javascript" src="js/bogota.js"></script>
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <!-- Archivos CSS -->
+    <link href="css/home.css" rel="stylesheet" type="text/css"/> 
+</head>
+<body onload="initMAP()">
+<div class="map container">
+    <div id='map'></div>
+</div>
+<div class="info">
+    <h1 align="center">Alcaldía Local de <strong id="titulo"></strong></h1>
+    <p>VARIABLES</p>
+    <div class="container">
+        <div>
+            <img style="width: 50px; margin-top: 15px; margin-left: 20px" src="image/alerta.png"/>
+        </div>
+        <div>
+            <img style="width: 50px; margin-top: 15px; margin-left: 20px" src="image/alerta.png"/>
+        </div>
+        <div>
+            <img style="width: 50px; margin-top: 15px; margin-left: 20px" src="image/alerta.png"/>
+        </div>
+        <div>
+            <img style="width: 50px; margin-top: 15px; margin-left: 20px" src="image/alerta.png"/>
+        </div>
+        <div>
+            <img style="width: 50px; margin-top: 15px; margin-left: 20px" src="image/alerta.png"/>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+var SECOPII= "https://www.datos.gov.co/resource/9f3w-id9a.json?$$app_token=glFv4rbJcL4JLD1Q3UJrlDthE";
+var SECOPI= "https://www.datos.gov.co/resource/c6dm-udt9.json?$$app_token=glFv4rbJcL4JLD1Q3UJrlDthE";
+var map=null
+var contratos=0;
+ var NumContracI=[3];
+ var NumContracII=[2];
+function initMAP(){
+    if(countContractI()==true && countContractII()==true){       
+        domap();        
+    }    
+}
+
+function countContractI(){
+    var anno;
+    for(var i=0; i<3;i++){
+        anno=2016+i;
+        var searchFilter="&tipo_de_contrato=Obra&nombre_de_la_entidad="+encodeURI("BOGOTÁ D.C. - ALCALDÍA LOCAL CIUDAD BOLÍVAR")+"&anno_cargue_secop="+anno;     
+        var url=SECOPI+searchFilter;
+        $.ajax({
+            url: url,
+            type: "GET",
+            data: {
+                "$limit":10000
+            },
+            error: function(xhr, status, error) {
+                alert("Ocurrió un error al tratar de obtener las columnas, por favor contacte al administrador");
+            },
+            success: function(data, textStatus, jqXHR){
+                bogota.features[18].properties.Contratos= data.length;
+            }
+           });
+        
+    }
+            
+
+    return true;
+    }
+function countContractII(){
+        var searchFilter="&tipo_de_contrato=Obra&nombre_entidad="+encodeURI("ALCALDIA LOCAL DE CIUDAD BOLIVAR");     
+        var url=SECOPII+searchFilter;
+        $.ajax({
+            url: url,
+            type: "GET",
+            data: {
+                "$limit":10000
+            },
+            error: function(xhr, status, error) {
+                alert("Ocurrió un error al tratar de obtener las columnas, por favor contacte al administrador");
+            },
+            success: function(data, textStatus, jqXHR){
+                bogota.features[18].properties.Contratos= bogota.features[18].properties.Contratos+ data.length;           
+            }
+        });  
+
+ return true;
+    }
+
+
+function domap(){
+    map = L.map('map').setView([4.4, -74.2], 10);
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 11,
+                minZoom: 10,
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors ',
+		id: 'mapbox.light'
+	}).addTo(map);
+	var info = L.control();
+	info.onAdd = function (map) {
+		this._div = L.DomUtil.create('div', 'info');
+		this.update();
+		return this._div;
+	};
+	info.update = function (props) {
+		this._div.innerHTML = '<div class="logo"><img style="width: 240px" src="image/logo.png"/></div>'+(props ? '<div class="infoLocal"><h4 class="titulo">Alcaldía Local de<br><br>'+props.NOMBRE+'</h4>\n\
+                        <p class="desc">sdafafgfnajn asjfnaskjfnjksa fasfjnaskjfnsajk fsafjnsajfnsa</p><div class="subtitulo">INDICADORES</div><h> \n\
+                        <div class="indicadores"><img style="width: 50px; margin-top: 15px; margin-left: 20px" src="image/Recurso_1.png"/> <l style="font-size: 15px; margin-left: 5px;">Obras Publicas <strong style="font-size: 20px;">' + props.Irregulariades+ '</strong></l></div><br><br>\n\
+                        <div class="indicadores"><img style="width: 50px; margin-top: 15px; margin-left: 20px" src="image/alerta.png"/> <l style="font-size: 15px; margin-left: 5px;">Alertas Encontradas <strong style="font-size: 20px;">' + props.Irregulariades+ '</strong></l></div>\n\
+                        <div>'
+			: '<br><p style="width: 300px; margin: auto" align="center">Visite cada localdiad para ver la <br> contración en Obras Publicas</p>');
+	};
+	info.addTo(map);
+	function getColor(d) {
+		return d > 10 ? '#FF3333' :
+                       d > 5  ? '#FF9966' :
+                                '#FFFF99';
+	}
+	function style(feature) {
+		return {
+			weight: 2,
+			opacity: 1,
+			color: 'white',
+			dashArray: '3',
+			fillOpacity: 0.7,
+			fillColor: getColor(feature.properties.Irregulariades)
+		};
+	}
+	function highlightFeature(e) {
+		var layer = e.target;
+
+		layer.setStyle({
+			weight: 5,
+			color: '#666',
+			dashArray: '',
+			fillOpacity: 0.7
+		});
+
+		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+			layer.bringToFront();
+		}
+
+		info.update(layer.feature.properties);
+	}
+
+	var geojson;
+
+	function resetHighlight(e) {
+		geojson.resetStyle(e.target);
+		info.update();
+	}
+
+	function zoomToFeature(e) {
+            var layer = e.target;
+            $("#titulo").html(layer.feature.properties.NOMBRE);
+	}
+
+	function onEachFeature(feature, layer) {
+		layer.on({
+			mouseover: highlightFeature,
+			mouseout: resetHighlight,
+			click: zoomToFeature
+		});
+	}
+
+	geojson = L.geoJson(bogota, {
+		style: style,
+		onEachFeature: onEachFeature
+	}).addTo(map);
+
+	map.attributionControl.addAttribution('Population data &copy; <a href="https://www.colombiacompra.gov.co/">Colombia Compra Eficiente</a>');
+
+
+	var legend = L.control({position: 'bottomleft'});
+
+	legend.onAdd = function (map) {
+
+		var div = L.DomUtil.create('div', 'info legend'),
+			grades = [0, 5, 10],
+			labels = ["Numero de irregularidades"],
+			from, to;
+
+		for (var i = 0; i < grades.length; i++) {
+			from = grades[i];
+			to = grades[i + 1];
+			labels.push(
+				'<i style="background:' + getColor(from + 1) + '"></i> ' +
+				from + (to ? '&ndash;' + to : '+'));
+		}
+
+		div.innerHTML = labels.join('<br>');
+		return div;
+	};
+
+	legend.addTo(map);
+}
+</script>
+</body>
+</html>
 <div class="map container">
     <div id='map'></div>
 </div>
